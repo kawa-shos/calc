@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-md-10">
+        <h1>Calc is short for calculator</h1>
+    </div>
+    <div class="col-md-2">
+        <!--results-->
+    </div>
+    <div class="col-md-2">
+        <input type="text" id="result" >
+    <div class="col-md-2">
+        <button class = "btn" onclick="clear()">C </button>
+        <button class = "btn" onclick="input('(')">( </button>
+        <button class = "btn" onclick="input(')')">) </button>
+        <button class = "btn" onclick="input('/')">/ </button>
+        <button class = "btn" onclick="clear()">aaa</button>
+    </div>
+    <div class="col-md-2">
+        <button class = "btn" onclick="input('7')">7 </button>
+        <button class = "btn" onclick="input('8')">8 </button>
+        <button class = "btn" onclick="input('9')">9 </button>
+        <button class = "btn" onclick="input('*')">* </button>
+    </div>
+    <div class="col-md-2">
+        <button class = "btn" onclick="input('4')">4 </button>
+        <button class = "btn" onclick="input('5')">5 </button>
+        <button class = "btn" onclick="input('6')">6 </button>
+        <button class = "btn" onclick="input('-')">- </button>
+    </div>
+    <div class="col-md-2">
+        <button class = "btn" onclick="input('1')">1 </button>
+        <button class = "btn" onclick="input('2')">2 </button>
+        <button class = "btn" onclick="input('3')">3 </button>
+        <button class = "btn" onclick="input('+')">+ </button>
+    </div>
+    <div class="col-md-2">
+        <button class = "btn" onclick="input('0')">0  </button>
+        <button class = "btn" onclick="input('.')">. </button>
+        <button class = "btn" onclick="input(-)">- </button>
+        <button class = "btn" onclick="equal()">= </button>
+    </div>
+</div>
+<script>
+    function input(n){
+        document.getElementById('result').value += n;
+        console.log("hi");
+    }
+    function clear(){
+        console.log("hello");
+        // let text = document.getElemntById('result');
+        // text.value = text.value.slice(0,-1);
+    }
+    async function equal(){
+        let exp = document.getElementById('result').value;
+        
+        try{
+            response = await fetch("/calc",{
+                method: "POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({expression: exp})
+            })
+            if (!response.ok){
+                throw new Error('Response status: ${response.status}');
+            }
+            data = await response.json();
+            document.getElementById("result").textContent = data.result;
+        }
+        catch(error){
+            console.error(error.message);
+        }
+    }
+</script>
+<hr>
+<p>This is a simple calc (calculator for short) powered by <b>FastAPI</b>!</p>
+
+{% endblock %}

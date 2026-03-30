@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-md-10">
+        <h1>Calc is short for calculator</h1>
+    </div>
+    <div class="col-md-2">
+        <form action="/calc" method="post">
+            <input type="number" name="a">
+            <input type="number" name="b">
+            <label for="operator">+,-,*,/ only</label>
+            <input type="text" name="operator" ></input>
+            <button type = "submit">calc</button>
+        </form>
+    </div>
+</div>
+
+<hr>
+<p>This is a simple toDo application powered by <b>FastAPI</b>!</p>
+
+{% endblock %}
